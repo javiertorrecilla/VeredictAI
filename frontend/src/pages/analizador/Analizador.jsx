@@ -41,7 +41,7 @@ export default function Analizador() {
           data.append("rdf", rdfText);
           data.append("formato", "xml");
 
-          const response = await axios.post("https://veredict-ai-back.vercel.app/ver_grafo/", data, {
+          const response = await axios.post("https://veredictai.onrender.com/ver_grafo/", data, {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             responseType: "blob"
           });
@@ -78,7 +78,7 @@ export default function Analizador() {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await axios.post("https://veredict-ai-back.vercel.app/inferencias/", formData);
+      const res = await axios.post("https://veredictai.onrender.com/inferencias/", formData);
       setArticulos(res.data.articulos || []);
       setError(null);
     } catch {
