@@ -1,0 +1,102 @@
+/* frontend/src/components/Navbar.css */
+
+.navbar {
+    background-color: #656667;
+    color: white;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+  }
+  
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .navbar-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+  
+  .navbar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-menu li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+    font-size: 1rem;
+  }
+  
+  .navbar-menu li a.active::after {
+    content: "";
+    display: block;
+    height: 3px;
+    background: #fcfcfc;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    border-radius: 2px;
+  }
+  
+  .navbar-menu li a:hover {
+    color: #dddddd;
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar-menu {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+  
+    .navbar-menu li a {
+      font-size: 1rem;
+    }
+  
+    .navbar-title {
+      font-size: 1.25rem;
+    }
+  
+    .navbar-logo {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
