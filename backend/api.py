@@ -49,12 +49,16 @@ async def procesar_atestado(file: UploadFile):
         else:
             descripcion = resultado
 
+        print(f"Descripción generada: {descripcion}")
+
         if isinstance(resultado, Atestado):
             resultado_dict = resultado.model_dump()
             resultado_dict["descripcion"] = descripcion
+            print(f"Resultado del procesamiento: {resultado_dict}")
             return resultado_dict
         else:
             resultado_str = str(resultado)
+            print(f"Resultado del procesamiento: {resultado_str}")
             return resultado_str
 
     except Exception as e:
