@@ -11,7 +11,7 @@ PyMuPDF
 pydantic
 platformdirs
 python-dotenv
-decimal
+
 
 # Razonamiento ontológico
 owlready2
