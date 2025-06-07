@@ -1,10 +1,25 @@
+# FastAPI y servidor
 fastapi
-uvicorn
+uvicorn[standard]
+
+# Manipulación de archivos y documentos
 python-multipart
-requests
-rdflib
-owlready2
+python-docx
+PyMuPDF
+
+# Lógica de negocio y estructuras
 pydantic
-python-dotenv
-openai
 platformdirs
+python-dotenv
+decimal
+
+# Razonamiento ontológico
+owlready2
+rdflib
+
+# HTTP y APIs
+requests
+openai
+
+# Otros (por dependencias internas y compatibilidad)
+aiofiles
