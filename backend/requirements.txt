@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+requests
+rdflib
+owlready2
+pydantic
+python-dotenv
+openai
