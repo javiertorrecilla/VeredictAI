@@ -7,3 +7,4 @@ owlready2
 pydantic
 python-dotenv
 openai
+platformdirs
