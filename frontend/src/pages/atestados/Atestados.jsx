@@ -45,7 +45,7 @@ export default function Atestados() {
     formData.append("file", file);
   
     try {
-      const res = await axios.post("http://localhost:8000/procesar/", formData);
+      const res = await axios.post("https://veredict-ai-back.vercel.app/procesar/", formData);
       setResultado(res.data); 
       console.log("Resultado del procesamiento:", res.data);
       console.log(resultado);
@@ -66,7 +66,7 @@ export default function Atestados() {
     }
   
     try {
-      const res = await axios.post("http://localhost:8000/generar_rdf/", resultado, {
+      const res = await axios.post("https://veredict-ai-back.vercel.app/generar_rdf/", resultado, {
         responseType: 'blob'
       });
   
