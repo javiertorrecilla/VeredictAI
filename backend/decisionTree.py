@@ -23,8 +23,6 @@ client = OpenAI(
 # ---- Clase para manejar el contexto del atestado y las preguntas al modelo LLM ----
 class AtestadoLLM:
 
-    cont = 0
-
     def __init__(self, contexto_atestado: str):
         self.contexto_atestado = contexto_atestado
         self.mensajes = [
@@ -34,13 +32,12 @@ class AtestadoLLM:
         ]
 
     def preguntar(self, pregunta: str) -> str:
-        AtestadoLLM.cont += 1
-        sleep(4) 
+        sleep(2)  # Simula un tiempo de espera para evitar saturar el modelo
         self.mensajes.append({"role": "user", "content": pregunta})
         completion = client.chat.completions.create(
             model="gpt-4.1-mini",
             messages=self.mensajes,
-            temperature=0.2,
+            temperature=0,
             top_p=1.0,
             max_tokens=1024,
         )
