@@ -13,7 +13,7 @@ class Bien(BaseModel):
 class Acusado(BaseModel):
     id: str
     edad: int = 0
-    organicacion_criminal: str = ""
+    organizacion_criminal: str = ""
     antecedentes: int = 0
     caracteristicas_acusado: List[str] = []
 

@@ -234,7 +234,7 @@ def caracteristicasAcusado(atestado_llm: AtestadoLLM, atestado: entities.Atestad
         if orgCriminal.lower() == 'sí':
             acusado.caracteristicas_acusado.append("Organización Criminal")
             nombreOrganizacion = atestado_llm.preguntar(questions.NOMBRE_ORGANIZACION.format(acusado=acusado.id))
-            acusado.organicacion_criminal = nombreOrganizacion
+            acusado.organizacion_criminal = nombreOrganizacion
         
         antecedentes = atestado_llm.preguntar(questions.ANTECEDENTES.format(acusado=acusado.id))
         if antecedentes.lower() == 'sí':

@@ -95,10 +95,10 @@ def nuevoAcusado(g, acusado: Acusado, atestado: Atestado, atestado_uri: URIRef):
     acusado_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(acusado.id)}")
     g.add((acusado_uri, RDF.type, DELPATRIMONIO.Accused))
 
-    if acusado.organicacion_criminal != "":
-        criminal_org_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(acusado.organicacion_criminal)}")
+    if acusado.organizacion_criminal != "":
+        criminal_org_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(acusado.organizacion_criminal)}")
         g.add((criminal_org_uri, RDF.type, DELPATRIMONIO.CriminalOrganization))
-        g.add((criminal_org_uri, DELPATRIMONIO.Name, Literal(acusado.organicacion_criminal)))
+        g.add((criminal_org_uri, DELPATRIMONIO.Name, Literal(acusado.organizacion_criminal)))
         g.add((acusado_uri, DELPATRIMONIO.belongsToCriminalOrganization, criminal_org_uri))
 
     # Verificar antecedentes y características del acusado

@@ -31,8 +31,8 @@ def generar_descripcion(atestado: Atestado) -> str:
             partes = [a.id]
             if a.edad:
                 partes.append(f"{a.edad} años")
-            if a.organicacion_criminal:
-                partes.append(f"miembro de la organización '{a.organicacion_criminal}'")
+            if a.organizacion_criminal:
+                partes.append(f"miembro de la organización '{a.organizacion_criminal}'")
             if a.antecedentes > 0:
                 partes.append(f"con {a.antecedentes} antecedentes")
             acusados.append(" ".join(partes))
