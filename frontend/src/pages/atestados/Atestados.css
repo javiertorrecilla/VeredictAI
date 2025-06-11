@@ -182,10 +182,36 @@
     100% { transform: rotate(360deg); }
   }
   
-  .error {
-    color: red;
-    margin-top: 1rem;
-    font-weight: 500;
-    text-align: center;
+.error {
+  color: red;
+  margin-top: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .procesamiento-grid {
+    flex-direction: column;
   }
+
+  .entrada,
+  .resultado {
+    flex: 1 1 100%;
+  }
+
+  .selector-box {
+    flex-direction: column;
+  }
+
+  .preview {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+  }
+
+  .preview embed,
+  .preview img {
+    height: auto;
+  }
+}
   

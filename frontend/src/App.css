@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -29,7 +35,7 @@ footer.footer {
 main {
   padding: 0 !important;
   margin: 0 !important;
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }

@@ -78,4 +78,18 @@
       text-align: center;
     }
   }
+
+@media (max-width: 480px) {
+  .home-content {
+    padding: 1rem;
+  }
+
+  .home-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .home-content p {
+    font-size: 0.95rem;
+  }
+}
   

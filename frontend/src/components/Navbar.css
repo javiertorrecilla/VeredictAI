@@ -99,4 +99,14 @@
       height: 40px;
     }
   }
+
+  @media (max-width: 480px) {
+    .navbar {
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-menu {
+      gap: 0.5rem;
+    }
+  }
   

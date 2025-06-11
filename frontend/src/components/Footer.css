@@ -15,4 +15,10 @@
       padding: 0.8rem 1rem;
     }
   }
+
+  @media (max-width: 480px) {
+    .footer {
+      padding: 0.5rem 0.8rem;
+    }
+  }
   

@@ -238,4 +238,20 @@
       padding: 1rem;
     }
   }
+
+@media (max-width: 480px) {
+  .analizador-wrapper {
+    padding: 1rem;
+  }
+
+  .paso {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .zoom-control {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
   
