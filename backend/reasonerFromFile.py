@@ -11,6 +11,7 @@ from articles import ARTICULOS_EXPLICACION
 ONTOLOGY = "SCPO_Extended_Ontology_V01R08_AT08Q.owl"
 
 def extract_local_name(iri):
+    """Return the local fragment of an IRI."""
     if '#' in iri:
         return iri.split('#')[-1]
     else:
@@ -19,6 +20,7 @@ def extract_local_name(iri):
 
 
 def import_rdf_individuals(rdf_graph, onto):
+    """Importa individuos y relaciones de un grafo RDF a una ontología."""
 
     existing_individuals = {ind.name for ind in onto.individuals()}
     individual_map = {}  
@@ -115,6 +117,7 @@ def import_rdf_individuals(rdf_graph, onto):
 
 
 def aplicar_not_sobre_hasOffenceCharacteristic_si_es_nothing(rdf_graph, onto):
+    """Añade inferencias negativas cuando la propiedad está restringida a Nothing."""
 
     for subj in rdf_graph.subjects(RDF.type, None):
         # Para cada tipo que sea un BNode (clase anónima)
@@ -148,6 +151,7 @@ def aplicar_not_sobre_hasOffenceCharacteristic_si_es_nothing(rdf_graph, onto):
 
 
 def reasoner(ruta_grafo):
+    """Carga un RDF, importa sus individuos y ejecuta el razonador Pellet."""
     print(f"📄 Cargando archivo RDF desde: {ruta_grafo}")
 
     onto = get_ontology(ONTOLOGY).load(reload=True)
@@ -184,6 +188,7 @@ def reasoner(ruta_grafo):
     return sorted(clases_inferidas)
 
 def construir_articulos_inferidos(lista_clases: list[str]) -> list[str]:
+    """Convierte las clases inferidas en referencias legislativas."""
     res = [ARTICULOS_EXPLICACION[c] for c in lista_clases if c in ARTICULOS_EXPLICACION]
     print(res)
     return res

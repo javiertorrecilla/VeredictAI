@@ -10,6 +10,7 @@ DELPATRIMONIO = Namespace("http://www.semanticweb.org/fjnavarrete/ontologies/202
 
 ## ---- Función para iniciar un grafo RDF -----
 def iniciar_grafo():
+    """Crea un grafo RDF inicializado con los prefijos de la ontología."""
     g = rdflib.Graph()
     g.bind("delpatrimonio", DELPATRIMONIO)
     g.bind("owl", OWL)
@@ -51,11 +52,13 @@ def iniciar_grafo():
     return g
 
 def uriSegura(text: str) -> str:
+    """Devuelve una representación segura para usar en URIs."""
     text = text.strip().replace("/", "_")
     return text.strip().replace(" ", "_")
 
 ## ---- Añadir un nuevo bien -----
 def nuevoBien(g, bien: Bien, atestado: Atestado, atestado_uri: URIRef, primerBien: bool):
+    """Añade un bien sustraído al grafo RDF."""
     bien_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(bien.nombre)}")
     g.add((bien_uri, RDF.type, DELPATRIMONIO.StolenGoods))
     g.add((atestado_uri, DELPATRIMONIO.stolenthing, bien_uri))
@@ -82,6 +85,7 @@ def nuevoBien(g, bien: Bien, atestado: Atestado, atestado_uri: URIRef, primerBie
 
 ## ---- Añadir nueva víctima -----
 def nuevaVictima(g, victima: Victima, atestado: Atestado):
+    """Registra una víctima en el grafo."""
     # Crear la URI de la víctima
     victima_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(victima.id)}")
     
@@ -92,6 +96,7 @@ def nuevaVictima(g, victima: Victima, atestado: Atestado):
 
 ## ---- Añadir nuevo acusado (autor o cómplice) -----
 def nuevoAcusado(g, acusado: Acusado, atestado: Atestado, atestado_uri: URIRef):
+    """Añade al grafo la información de un acusado o cómplice."""
     acusado_uri = URIRef(f"{DELPATRIMONIO}_{uriSegura(atestado.atestado_id)}_{uriSegura(acusado.id)}")
     g.add((acusado_uri, RDF.type, DELPATRIMONIO.Accused))
 
@@ -155,6 +160,7 @@ def nuevoAcusado(g, acusado: Acusado, atestado: Atestado, atestado_uri: URIRef):
 
 ## ---- Añadir el atestado completo -----
 def nuevoAtestadoRobo(atestado: Atestado):
+    """Construye el RDF de un atestado clasificado como robo."""
     g = iniciar_grafo()
 
     # Crear URI único para el atestado
@@ -213,6 +219,9 @@ def nuevoAtestadoRobo(atestado: Atestado):
 ## ---- Añadir el atestado completo -----
 def nuevoAtestadoHurto(atestado: Atestado):
 
+    """Construye el RDF de un atestado de hurto, creando restricciones
+    cuando no hay características del delito."""
+
     g = iniciar_grafo()
 
     atestado_uri = URIRef(f"{DELPATRIMONIO}{uriSegura(atestado.atestado_id)}")
@@ -269,6 +278,7 @@ def nuevoAtestadoHurto(atestado: Atestado):
     return g, nombre_archivo
 
 def crear_rdf(atestado: Atestado):
+    """Crea el archivo RDF correspondiente a un ``Atestado``."""
     if len(atestado.caracteristicas_del_delito) == 0 or atestado.caracteristicas_del_delito[0] == "Neutralización, eliminación o inutilización de alarmas o dispositivos de seguridad": 
         grafo, nombre_archivo = nuevoAtestadoHurto(atestado)
     else:
@@ -285,6 +295,7 @@ def crear_rdf(atestado: Atestado):
     return f"{nombre_archivo}.rdf"
 
 def filtrar_grafo(rdf_text: str, formato="xml", namespace_base="http://www.semanticweb.org/fjnavarrete/ontologies/2022/0/delito_contra_patrimonio#") -> Graph:
+    """Elimina nodos externos al informe manteniendo solo información relevante."""
     g_original = Graph()
     g_original.parse(data=rdf_text, format=formato)
 

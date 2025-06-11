@@ -35,15 +35,19 @@ class Atestado(BaseModel):
     factores_mitigantes: List[str] = []
 
 def initBienes(nombres: List[str]) -> List[Bien]:
+    """Crea objetos ``Bien`` a partir de una lista de nombres."""
     return [Bien(nombre=nombre) for nombre in nombres]
 
 def initAcusados(ids: List[str]) -> List[Acusado]:
+    """Inicializa instancias de ``Acusado`` para los identificadores dados."""
     return [Acusado(id=id) for id in ids]
 
 def initVictimas(ids: List[str]) -> List[Victima]:
+    """Devuelve una lista de ``Victima`` basándose en sus identificadores."""
     return [Victima(id=id) for id in ids]
 
 def initAtestado(atestado_id: str, bienes: List[Bien], victimas: List[Victima], autores: List[Acusado]) -> Atestado:
+    """Construye un objeto ``Atestado`` con sus elementos principales."""
     return Atestado(
         atestado_id=atestado_id,
         bienes_robados=bienes,
@@ -52,5 +56,6 @@ def initAtestado(atestado_id: str, bienes: List[Bien], victimas: List[Victima], 
     )
 
 def filtrar_bienes(lista):
+    """Elimina nombres que hagan referencia a dinero de una lista de bienes."""
     patron = re.compile(r'\b(euro\w*|billete\w*|moneda\w*)\b', re.IGNORECASE)
     return [item for item in lista if not patron.search(item)]

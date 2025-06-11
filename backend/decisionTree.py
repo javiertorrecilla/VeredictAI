@@ -22,16 +22,40 @@ client = OpenAI(
 
 # ---- Clase para manejar el contexto del atestado y las preguntas al modelo LLM ----
 class AtestadoLLM:
+    """Wrapper para interactuar con el modelo LLM usando un contexto de atestado."""
 
     def __init__(self, contexto_atestado: str):
+        """Inicializar el asistente.
+
+        Parameters
+        ----------
+        contexto_atestado: str
+            Texto completo del atestado que servirá como contexto del modelo.
+        """
         self.contexto_atestado = contexto_atestado
         self.mensajes = [
-            {"role": "system", "content":
-             f"Eres un asistente jurídico. "
-             f"Tienes que extraer información del siguiente atestado:\n\n{contexto_atestado}"}
+            {
+                "role": "system",
+                "content": (
+                    "Eres un asistente jurídico. "
+                    f"Tienes que extraer información del siguiente atestado:\n\n{contexto_atestado}"
+                ),
+            }
         ]
 
     def preguntar(self, pregunta: str) -> str:
+        """Lanza una pregunta al modelo y devuelve su respuesta como texto.
+
+        Parameters
+        ----------
+        pregunta: str
+            Pregunta que se enviará al modelo de lenguaje.
+
+        Returns
+        -------
+        str
+            Respuesta devuelta por el modelo.
+        """
         sleep(2)  # Simula un tiempo de espera para evitar saturar el modelo
         self.mensajes.append({"role": "user", "content": pregunta})
         completion = client.chat.completions.create(
@@ -47,6 +71,23 @@ class AtestadoLLM:
 
 # ---- Función principal del árbol de decisión de delito contra la propiedad ----
 def delitoPropiedad(atestado_llm: AtestadoLLM):
+    """Ejecuta el árbol de decisión principal para clasificar el delito.
+
+    Pregunta al modelo sobre distintos aspectos del atestado para
+    construir un objeto :class:`entities.Atestado` y determinar si se
+    trata de robo o hurto.
+
+    Parameters
+    ----------
+    atestado_llm: AtestadoLLM
+        Instancia de ``AtestadoLLM`` con el contexto del atestado.
+
+    Returns
+    -------
+    entities.Atestado | str
+        Objeto ``Atestado`` con la información obtenida o un mensaje si
+        el hecho no encaja como delito contra la propiedad.
+    """
     delitoContraPropiedad = atestado_llm.preguntar(questions.DELITO_CONTRA_PROPIEDAD)
     if delitoContraPropiedad.lower().startswith("no"):
         return "No se estudia como delito contra la propiedad."
@@ -118,6 +159,23 @@ def delitoPropiedad(atestado_llm: AtestadoLLM):
 
 # ---- Función para procesar tipo de hurto ----
 def procesar_hurto(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Procesa la rama del árbol correspondiente al hurto.
+
+    Según las respuestas del modelo se determina si es hurto del
+    propietario o de un tercero y se solicitan datos adicionales.
+
+    Parameters
+    ----------
+    atestado_llm: AtestadoLLM
+        Asistente con el contexto del atestado.
+    atestado: entities.Atestado
+        Instancia donde se irán almacenando los datos obtenidos.
+
+    Returns
+    -------
+    entities.Atestado
+        Atestado completado con la información obtenida para el hurto.
+    """
     hurtoPropietario = atestado_llm.preguntar(questions.HURTO_PROPIETARIO)
 
     obtencionUsuarios(atestado_llm, atestado)
@@ -143,6 +201,24 @@ def procesar_hurto(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
 
 # ---- Función para comentar tipo de robo ----
 def procesar_robo(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Procesa la rama relativa al robo con violencia, allanamiento o
+    forzamiento.
+
+    Pregunta por propietarios y características agravantes para rellenar
+    el objeto ``Atestado``.
+
+    Parameters
+    ----------
+    atestado_llm: AtestadoLLM
+        Asistente con el contexto del atestado.
+    atestado: entities.Atestado
+        Instancia donde se almacena la información obtenida.
+
+    Returns
+    -------
+    entities.Atestado
+        Atestado actualizado con los datos del robo.
+    """
 
     for bien in atestado.bienes_robados:
         if bien.propietario == "":
@@ -192,6 +268,7 @@ def procesar_robo(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
 
 # ---- Función para procesar hurto de propietario ----
 def procesarHurtoPropietario(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Completa el ``Atestado`` para un hurto cometido por su propietario."""
     valorTotalRobado(atestado_llm, atestado)
     print("Clasificado como hurto de propietario")
     print("Atestado creado")
@@ -199,6 +276,7 @@ def procesarHurtoPropietario(atestado_llm: AtestadoLLM, atestado: entities.Atest
 
 # ---- Función para procesar hurto que no es de propietario ----
 def procesarHurtoNoPropietario(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Completa un ``Atestado`` de hurto donde el autor no es propietario."""
     subarticulosAgravantes(atestado_llm, atestado)
     entradaIlegal = atestado_llm.preguntar(questions.NEUTRALIZACION_ALARMAS)
     if entradaIlegal.lower() == "sí":
@@ -210,6 +288,7 @@ def procesarHurtoNoPropietario(atestado_llm: AtestadoLLM, atestado: entities.Ate
 
 # ---- Función para procesar robo con intimidación ----
 def procesarRoboConIntimidacion(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Agrega agravantes o atenuantes relativos a la intimidación."""
     armas = atestado_llm.preguntar(questions.ROBO_CON_ARMA)
     violenciaMinima = atestado_llm.preguntar(questions.VIOLENCIA_ESCASA)
     if armas.lower() == "sí":
@@ -219,6 +298,7 @@ def procesarRoboConIntimidacion(atestado_llm: AtestadoLLM, atestado: entities.At
 
 # ---- Función para calcular el valor total robado ----
 def valorTotalRobado(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Pregunta y calcula el valor total sustraído."""
     print("Obteniendo valor robado...")
     dineroEfectivo = atestado_llm.preguntar(questions.DINERO_ROBADO)
     valorRobado = atestado_llm.preguntar(questions.VALOR_ROBADO)
@@ -228,6 +308,7 @@ def valorTotalRobado(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
 
 # ---- Función para procesar carcterísticas del acusado ----
 def caracteristicasAcusado(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Obtiene datos relevantes de cada acusado (edad, antecedentes, etc.)."""
     print("Obteniendo características de acusados...")
     for acusado in atestado.autores:
         orgCriminal = atestado_llm.preguntar(questions.ORGANIZACION_CRIMINAL.format(acusado=acusado.id))
@@ -250,6 +331,7 @@ def caracteristicasAcusado(atestado_llm: AtestadoLLM, atestado: entities.Atestad
 
 # ---- Función para procesar características de los bienes ----
 def caracteristicasBienes(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Pregunta al modelo por características especiales de cada bien."""
     print("Obteniendo características de bienes...")
 
     for bien in atestado.bienes_robados:
@@ -286,6 +368,7 @@ def caracteristicasBienes(atestado_llm: AtestadoLLM, atestado: entities.Atestado
 
 # ---- Función para procesar efectos del delito ----
 def efectosDelito(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Consulta al modelo por los daños sufridos por cada víctima."""
     print("Obteniendo efectos del delito...")
     start = time.time()
     efectos = False
@@ -312,6 +395,7 @@ def efectosDelito(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
 
 # ---- Función para procesar agravantes comunes a delitos contra la propiedad ----
 def subarticulosAgravantes(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Aplica preguntas comunes para determinar agravantes genéricos."""
     caracteristicasBienes(atestado_llm, atestado)
     caracteristicasAcusado(atestado_llm, atestado)
     efectosDelito(atestado_llm, atestado)
@@ -319,7 +403,8 @@ def subarticulosAgravantes(atestado_llm: AtestadoLLM, atestado: entities.Atestad
 
 # ---- Función para obtener cómplices, testigos y empresas ----
 def obtencionComplices(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
-    
+    """Pregunta por cómplices, testigos y empresas involucradas."""
+
     print("Obteniendo cómplices...")
     complices = atestado_llm.preguntar(questions.COMPLICES)
     if complices.lower() == "no":
@@ -342,6 +427,7 @@ def obtencionComplices(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
 
 # ---- Función para obtener usuarios ----
 def obtencionUsuarios(atestado_llm: AtestadoLLM, atestado: entities.Atestado):
+    """Consulta quién utiliza cada bien robado."""
     print("Obteniendo usuarios de los bienes...")
     start = time.time()
     for bien in atestado.bienes_robados:

@@ -27,6 +27,24 @@ app.add_middleware(
 # Ruta de api para procesar atestados
 @app.post("/procesar/")
 async def procesar_atestado(file: UploadFile):
+    """Procesa un atestado subido por el usuario.
+
+    Lee el archivo proporcionado (PDF o DOCX), lo envía al árbol de
+    decisión basado en LLM y, si procede, genera una descripción
+    resumida del atestado.
+
+    Parameters
+    ----------
+    file: UploadFile
+        Archivo que contiene el atestado en formato PDF o DOCX.
+
+    Returns
+    -------
+    dict | str
+        Diccionario con los datos del ``Atestado`` y su descripción o
+        un mensaje de error/estado en caso de que no se determine un
+        atestado válido.
+    """
     try:
         extension = os.path.splitext(file.filename)[1].lower()
         contenido = await file.read()
@@ -67,8 +85,18 @@ async def procesar_atestado(file: UploadFile):
 # Ruta de api para generar RDF a partir de un atestado
 @app.post("/generar_rdf/")
 async def generar_rdf(atestado: Atestado):
-    """
-    Genera un RDF a partir de un atestado y lo devuelve como archivo descargable.
+    """Crear y devolver un fichero RDF para el ``Atestado`` recibido.
+
+    Parameters
+    ----------
+    atestado: Atestado
+        Datos estructurados del atestado a convertir en RDF.
+
+    Returns
+    -------
+    StreamingResponse | dict
+        Respuesta con el archivo RDF listo para descargar o un
+        diccionario con información de error si algo falla.
     """
     try:
         nombre_archivo = crear_rdf(atestado)
@@ -88,6 +116,20 @@ async def generar_rdf(atestado: Atestado):
 # Ruta de api para visualizar el grafo RDF
 @app.post("/ver_grafo/")
 async def ver_grafo(rdf: str = Form(...), formato: str = Form(default="xml")):
+    """Devuelve una imagen PNG representando el grafo RDF recibido.
+
+    Parameters
+    ----------
+    rdf: str
+        Texto RDF en el formato indicado.
+    formato: str
+        Formato del RDF proporcionado. Por defecto ``"xml"``.
+
+    Returns
+    -------
+    Response | dict
+        Imagen PNG del grafo o diccionario con mensaje de error.
+    """
     try:
         grafo_filtrado = filtrar_grafo(rdf, formato=formato)
         rdf_filtrado = grafo_filtrado.serialize(format=formato)
@@ -115,6 +157,19 @@ async def ver_grafo(rdf: str = Form(...), formato: str = Form(default="xml")):
 # Ruta de api para inferencias RDF
 @app.post("/inferencias/")
 async def inferencias(file: UploadFile = File(...)):
+    """Ejecuta inferencias OWL sobre el RDF subido y devuelve artículos.
+
+    Parameters
+    ----------
+    file: UploadFile
+        Archivo RDF que contiene el grafo a analizar.
+
+    Returns
+    -------
+    dict
+        Diccionario con la lista de artículos inferidos a partir de las
+        clases OWL obtenidas.
+    """
     contenido = await file.read()
     with tempfile.NamedTemporaryFile(delete=False, suffix=".rdf") as tmp:
         tmp.write(contenido)

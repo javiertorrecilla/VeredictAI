@@ -3,6 +3,7 @@ from entities import Atestado
 
 # Función para generar una descripción textual de un atestado
 def generar_descripcion(atestado: Atestado) -> str:
+    """Devuelve un resumen en lenguaje natural del ``Atestado`` proporcionado."""
     descripcion = []
 
     descripcion.append(f"El atestado {atestado.atestado_id} documenta un presunto delito contra la propiedad.")
