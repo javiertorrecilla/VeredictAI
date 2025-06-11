@@ -140,7 +140,7 @@ export default function Analizador() {
         </div>
       )}
 
-      <div className="resultado">
+      <div className="resultado" aria-live="polite">
         <h3>Artículos Inferidos:</h3>
         {articulos.length > 0 ? (
           <ul>
@@ -155,8 +155,8 @@ export default function Analizador() {
       </div>
 
       {popupTexto && (
-        <div className="popup-overlay">
-          <div className="popup-loader">
+        <div className="popup-overlay" role="status" aria-live="polite">
+          <div className="popup-loader" aria-busy="true">
             <div className="spinner" />
             <p>{popupTexto}</p>
           </div>

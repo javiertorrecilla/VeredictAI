@@ -127,7 +127,7 @@ export default function Atestados() {
           </button>
         </div>
 
-        <div className="resultado">
+        <div className="resultado" aria-live="polite">
           <h3>Resultado:</h3>
           {resultado ? (
             <>
@@ -158,8 +158,8 @@ export default function Atestados() {
       </div>
 
       {popup && (
-        <div className="popup-overlay">
-          <div className="popup-loader">
+        <div className="popup-overlay" role="status" aria-live="polite">
+          <div className="popup-loader" aria-busy="true">
             <div className="spinner" />
             <p>Procesando documento...</p>
           </div>
