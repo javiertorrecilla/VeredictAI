@@ -68,8 +68,6 @@ export default function Atestados() {
     try {
       const res = await axios.post("https://veredictai.onrender.com/procesar/", formData);
       setResultado(res.data); 
-      console.log("Resultado del procesamiento:", res.data);
-      console.log(resultado);
       setError(null);
     } catch (err) {
       setError("Error al procesar el documento.");
@@ -78,7 +76,6 @@ export default function Atestados() {
       setPopup(false);
     }
   };
-  
 
   const descargarRDF = async () => {
     if (!resultado) {
@@ -100,41 +97,42 @@ export default function Atestados() {
       alert("No se pudo generar el archivo RDF.");
     }
   };
-  
 
   return (
     <div className="atestados-wrapper">
-      <h1>Procesamiento de Atestado</h1>
-      <p className="subtitulo">Carga un atestado en formato PDF o DOCX y obtén su interpretación semántica.</p>
+      <h1 tabIndex="0">Procesamiento de Atestado</h1>
+      <p className="subtitulo" tabIndex="0">Carga un atestado en formato PDF o DOCX y obtén su interpretación semántica.</p>
 
       <div className="pasos">
-        <div className="paso"><span>1</span> Selecciona un archivo válido</div>
-        <div className="paso"><span>2</span> Procesa el contenido con IA</div>
-        <div className="paso"><span>3</span> Muestra los resultados y descarga el grafo</div>
+        <div className="paso" tabIndex="0"><span>1</span> Selecciona un archivo válido</div>
+        <div className="paso" tabIndex="0"><span>2</span> Procesa el contenido con IA</div>
+        <div className="paso" tabIndex="0"><span>3</span> Muestra los resultados y descarga el grafo</div>
       </div>
 
       <div className="procesamiento-grid">
         <div className="entrada">
           <div className="selector-box">
-            <div className="preview">
+            <div className="preview" aria-label="Vista previa del archivo" role="region">
               {previewUrl ? (
-                <embed src={previewUrl} type="application/pdf" />
+                <embed src={previewUrl} type="application/pdf" title="Previsualización PDF" />
               ) : file && file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ? (
-                <img src={docs} alt="Vista DOCX" />
+                <img src={docs} alt="Documento Word cargado" />
               ) : (
-                <img src={noArchivo} alt="Sin archivo" />
+                <img src={noArchivo} alt="Ningún archivo seleccionado" />
               )}
             </div>
             <div className="archivo-info">
-              <p><strong>{file ? file.name : 'No hay archivo seleccionado'}</strong></p>
-              <p style={{ fontSize: '0.8rem', color: '#888' }}>Recomendado: PDF para previsualización directa</p>
-              <label className="btn archivo-btn">
+              <p tabIndex="0"><strong>{file ? file.name : 'No hay archivo seleccionado'}</strong></p>
+              <p style={{ fontSize: '0.8rem', color: '#888' }} tabIndex="0">Recomendado: PDF para previsualización directa</p>
+
+              <label className="btn archivo-btn" aria-label="Seleccionar archivo para procesar">
                 <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
                 Seleccionar archivo
                 <input type="file" accept=".pdf,.docx" onChange={handleChange} hidden />
               </label>
+
               {file && (
-                <button className="eliminar-btn" onClick={eliminarArchivo}>
+                <button className="eliminar-btn" onClick={eliminarArchivo} aria-label="Eliminar archivo seleccionado">
                   <FiTrash2 aria-hidden="true" style={{ marginRight: '4px' }} />
                   Eliminar
                 </button>
@@ -142,39 +140,44 @@ export default function Atestados() {
             </div>
           </div>
 
-          <button className="btn procesar-btn" onClick={procesar} disabled={!file}>
+          <button
+            className="btn procesar-btn"
+            onClick={procesar}
+            disabled={!file}
+            aria-label="Procesar el documento cargado"
+          >
             <FiLoader aria-hidden="true" style={{ marginRight: '6px' }} />
             Procesar
           </button>
         </div>
 
-        <div className="resultado" aria-live='polite'>
-          <h3>Resultado:</h3>
+        <div className="resultado" aria-live="polite" role="region">
+          <h3 tabIndex="0">Resultado:</h3>
           {resultado ? (
             <>
               <p><strong>Descripción:</strong></p>
-              <p>
+              <p tabIndex="0">
                 {typeof resultado === "string"
                   ? resultado
                   : resultado.descripcion || "No se pudo generar descripción en lenguaje natural."}
               </p>
 
               <details style={{ marginTop: '1rem' }}>
-                <summary>Ver datos completos</summary>
+                <summary tabIndex="0">Ver datos completos</summary>
                 <pre style={{ marginTop: '0.5rem' }}>
                   {JSON.stringify(resultado, null, 2)}
                 </pre>
               </details>
             </>
           ) : (
-            <p>No se ha procesado ningún documento aún.</p>
+            <p tabIndex="0">No se ha procesado ningún documento aún.</p>
           )}
 
-          <button className="btn descargar-btn" onClick={descargarRDF}>
+          <button className="btn descargar-btn" onClick={descargarRDF} aria-label="Descargar grafo RDF">
             <FiDownload aria-hidden="true" style={{ marginRight: '6px' }} />
             Descargar grafo
           </button>
-          {error && <p className="error">{error}</p>}
+          {error && <p className="error" tabIndex="0">{error}</p>}
         </div>
       </div>
 
@@ -183,7 +186,7 @@ export default function Atestados() {
           className="popup-overlay"
           role="alertdialog"
           aria-modal="true"
-          aria-live='polite'
+          aria-live="polite"
           ref={overlayRef}
           tabIndex="-1"
         >
