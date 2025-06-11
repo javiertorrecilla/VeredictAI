@@ -1,5 +1,5 @@
 import './Analizador.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { FiUpload, FiSearch, FiRotateCw } from 'react-icons/fi';
 
@@ -13,6 +13,31 @@ export default function Analizador() {
 
   const imageRef = useRef(null);
   const visualRef = useRef(null);
+  // Ref to control focus on the popup overlay
+  const overlayRef = useRef(null);
+
+  // When the popup is visible, focus it and trap keyboard navigation.
+  useEffect(() => {
+    if (!popupTexto) return;
+
+    const overlay = overlayRef.current;
+    if (overlay) overlay.focus();
+
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        // Allow the user to cancel the loading overlay with Esc
+        e.preventDefault();
+        setPopupTexto(null);
+      }
+      if (e.key === 'Tab') {
+        // Keep focus within the overlay while it's visible
+        e.preventDefault();
+      }
+    };
+
+    overlay?.addEventListener('keydown', handleKey);
+    return () => overlay?.removeEventListener('keydown', handleKey);
+  }, [popupTexto]);
 
   const actualizarOverflow = (nuevoZoom) => {
     const zoomLimitado = Math.max(1, Math.min(1.3, nuevoZoom));
@@ -155,7 +180,14 @@ export default function Analizador() {
       </div>
 
       {popupTexto && (
-        <div className="popup-overlay">
+        /* Loading overlay. Focus is trapped and Esc closes it. */
+        <div
+          className="popup-overlay"
+          role="alertdialog"
+          aria-modal="true"
+          ref={overlayRef}
+          tabIndex="-1"
+        >
           <div className="popup-loader">
             <div className="spinner" />
             <p>{popupTexto}</p>

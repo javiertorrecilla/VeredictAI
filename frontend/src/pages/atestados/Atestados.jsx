@@ -1,5 +1,5 @@
 import './Atestados.css';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { FiUpload, FiTrash2, FiDownload, FiLoader } from 'react-icons/fi';
 import docs from '../../assets/docs.png';
@@ -12,6 +12,31 @@ export default function Atestados() {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState(false);
   const [error, setError] = useState(null);
+  // Ref used to keep focus within the popup overlay
+  const overlayRef = useRef(null);
+
+  // When popup is visible, focus it and trap keyboard navigation
+  useEffect(() => {
+    if (!popup) return;
+
+    const overlay = overlayRef.current;
+    if (overlay) overlay.focus();
+
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        // Allow cancelling processing with Esc
+        e.preventDefault();
+        setPopup(false);
+      }
+      if (e.key === 'Tab') {
+        // Prevent focus from leaving the overlay
+        e.preventDefault();
+      }
+    };
+
+    overlay?.addEventListener('keydown', handleKey);
+    return () => overlay?.removeEventListener('keydown', handleKey);
+  }, [popup]);
 
   const handleChange = (e) => {
     const selected = e.target.files[0];
@@ -158,7 +183,14 @@ export default function Atestados() {
       </div>
 
       {popup && (
-        <div className="popup-overlay">
+        /* Processing overlay. Focus is trapped and Esc cancels. */
+        <div
+          className="popup-overlay"
+          role="alertdialog"
+          aria-modal="true"
+          ref={overlayRef}
+          tabIndex="-1"
+        >
           <div className="popup-loader">
             <div className="spinner" />
             <p>Procesando documento...</p>
