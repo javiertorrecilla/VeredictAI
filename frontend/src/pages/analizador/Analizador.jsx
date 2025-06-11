@@ -13,10 +13,8 @@ export default function Analizador() {
 
   const imageRef = useRef(null);
   const visualRef = useRef(null);
-  // Ref to control focus on the popup overlay
   const overlayRef = useRef(null);
 
-  // When the popup is visible, focus it and trap keyboard navigation.
   useEffect(() => {
     if (!popupTexto) return;
 
@@ -25,12 +23,10 @@ export default function Analizador() {
 
     const handleKey = (e) => {
       if (e.key === 'Escape') {
-        // Allow the user to cancel the loading overlay with Esc
         e.preventDefault();
         setPopupTexto(null);
       }
       if (e.key === 'Tab') {
-        // Keep focus within the overlay while it's visible
         e.preventDefault();
       }
     };
@@ -165,7 +161,7 @@ export default function Analizador() {
         </div>
       )}
 
-      <div className="resultado">
+      <div className="resultado" aria-live='polite'>
         <h3>Artículos Inferidos:</h3>
         {articulos.length > 0 ? (
           <ul>
@@ -180,15 +176,15 @@ export default function Analizador() {
       </div>
 
       {popupTexto && (
-        /* Loading overlay. Focus is trapped and Esc closes it. */
         <div
           className="popup-overlay"
           role="alertdialog"
           aria-modal="true"
+          aria-live='polite'
           ref={overlayRef}
           tabIndex="-1"
         >
-          <div className="popup-loader">
+          <div className="popup-loader" aria-busy="true">
             <div className="spinner" />
             <p>{popupTexto}</p>
           </div>

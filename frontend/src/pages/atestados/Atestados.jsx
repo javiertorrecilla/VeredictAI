@@ -12,10 +12,8 @@ export default function Atestados() {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState(false);
   const [error, setError] = useState(null);
-  // Ref used to keep focus within the popup overlay
   const overlayRef = useRef(null);
 
-  // When popup is visible, focus it and trap keyboard navigation
   useEffect(() => {
     if (!popup) return;
 
@@ -24,12 +22,10 @@ export default function Atestados() {
 
     const handleKey = (e) => {
       if (e.key === 'Escape') {
-        // Allow cancelling processing with Esc
         e.preventDefault();
         setPopup(false);
       }
       if (e.key === 'Tab') {
-        // Prevent focus from leaving the overlay
         e.preventDefault();
       }
     };
@@ -152,7 +148,7 @@ export default function Atestados() {
           </button>
         </div>
 
-        <div className="resultado">
+        <div className="resultado" aria-live='polite'>
           <h3>Resultado:</h3>
           {resultado ? (
             <>
@@ -183,15 +179,15 @@ export default function Atestados() {
       </div>
 
       {popup && (
-        /* Processing overlay. Focus is trapped and Esc cancels. */
         <div
           className="popup-overlay"
           role="alertdialog"
           aria-modal="true"
+          aria-live='polite'
           ref={overlayRef}
           tabIndex="-1"
         >
-          <div className="popup-loader">
+          <div className="popup-loader" aria-busy="true">
             <div className="spinner" />
             <p>Procesando documento...</p>
           </div>
