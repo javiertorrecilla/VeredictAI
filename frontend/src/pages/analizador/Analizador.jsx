@@ -111,28 +111,39 @@ export default function Analizador() {
 
   return (
     <div className="analizador-wrapper">
-      <h1>Análisis e Inferencia Jurídica</h1>
-      <p className="subtitulo">Sube un archivo RDF para visualizar su grafo y obtener artículos inferidos automáticamente.</p>
+      <h1 tabIndex="0">Análisis e Inferencia Jurídica</h1>
+      <p className="subtitulo" tabIndex="0">
+        Sube un archivo RDF para visualizar su grafo y obtener artículos inferidos automáticamente.
+      </p>
 
       <div className="pasos">
-        <div className="paso"><span>1</span> Selecciona un archivo RDF válido</div>
-        <div className="paso"><span>2</span> Muestra el grafo asociado al archivo RDF</div>
-        <div className="paso"><span>3</span> Analiza e infiere un artículo en base al grafo RDF</div>
+        <div className="paso" tabIndex="0"><span>1</span> Selecciona un archivo RDF válido</div>
+        <div className="paso" tabIndex="0"><span>2</span> Muestra el grafo asociado al archivo RDF</div>
+        <div className="paso" tabIndex="0"><span>3</span> Analiza e infiere un artículo en base al grafo RDF</div>
       </div>
 
       <div className="analizador-formulario">
-        <label className="btn archivo-btn">
+        <label className="btn archivo-btn" aria-label="Seleccionar archivo RDF para analizar">
           <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
           Seleccionar archivo RDF
           <input type="file" accept=".rdf" onChange={handleFileChange} hidden />
         </label>
 
-        <button className="btn analizar-btn" onClick={analizar} disabled={!file}>
+        <button
+          className="btn analizar-btn"
+          onClick={analizar}
+          disabled={!file}
+          aria-label="Analizar grafo RDF"
+        >
           <FiSearch aria-hidden="true" style={{ marginRight: '6px' }} />
           Analizar RDF
         </button>
 
-        <button className="btn reiniciar-btn" onClick={() => window.location.reload()}>
+        <button
+          className="btn reiniciar-btn"
+          onClick={() => window.location.reload()}
+          aria-label="Analizar otro archivo RDF"
+        >
           <FiRotateCw aria-hidden="true" style={{ marginRight: '6px' }} />
           Analizar otro RDF
         </button>
@@ -143,36 +154,36 @@ export default function Analizador() {
           <img
             ref={imageRef}
             src={grafoUrl}
-            alt="Visualización del Grafo"
+            alt="Visualización del grafo RDF"
             className="grafo-scroll-zoom"
             onLoad={onImageLoad}
             style={{ width: `${zoom * 100}%`, height: 'auto' }}
           />
         ) : (
-          <p className="grafotip">Selecciona un RDF para visualizar su grafo.</p>
+          <p className="grafotip" tabIndex="0">Selecciona un RDF para visualizar su grafo.</p>
         )}
       </div>
 
       {grafoUrl && (
         <div className="zoom-control">
-          <button onClick={() => actualizarOverflow(Math.max(0.1, zoom - 0.1))}>−</button>
+          <button onClick={() => actualizarOverflow(Math.max(0.1, zoom - 0.1))} aria-label="Reducir zoom">−</button>
           <span>{zoom.toFixed(1)}x</span>
-          <button onClick={() => actualizarOverflow(zoom + 0.1)}>+</button>
+          <button onClick={() => actualizarOverflow(zoom + 0.1)} aria-label="Aumentar zoom">+</button>
         </div>
       )}
 
       <div className="resultado" aria-live='polite'>
-        <h3>Artículos Inferidos:</h3>
+        <h3 tabIndex="0">Artículos Inferidos:</h3>
         {articulos.length > 0 ? (
           <ul>
             {articulos.map((texto, i) => (
-              <li key={i}>{texto}</li>
+              <li key={i} tabIndex="0">{texto}</li>
             ))}
           </ul>
         ) : (
-          <p>No hay artículos inferidos.</p>
+          <p tabIndex="0">No hay artículos inferidos.</p>
         )}
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error" tabIndex="0">{error}</p>}
       </div>
 
       {popupTexto && (
