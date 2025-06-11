@@ -34,6 +34,11 @@
     background-color: #1976d2;
     color: white;
   }
+
+  .archivo-btn:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+  }
   
   .archivo-btn:hover {
     background-color: #12569d;
@@ -43,6 +48,11 @@
     background-color: #388e3c;
     color: white;
   }
+
+  .analizar-btn:focus {
+    outline: 2px solid #388e3c;
+    outline-offset: 2px;
+  }
   
   .analizar-btn:hover {
     background-color: #2e7d32;
@@ -50,6 +60,11 @@
   .reiniciar-btn {
     background-color: #757575;
     color: white;
+  }
+
+  .reiniciar-btn:focus {
+    outline: 2px solid #757575;
+    outline-offset: 2px;
   }
   
   .reiniciar-btn:hover {
@@ -210,6 +225,11 @@
     color: white;
     border-radius: 6px;
     cursor: pointer;
+  }
+
+  .zoom-control button:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
   }
   
   .zoom-control button:hover {

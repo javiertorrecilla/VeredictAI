@@ -58,6 +58,11 @@
     font-weight: bold;
     transition: all 0.3s ease;
   }
+
+  .home-btn:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
   
   .home-btn:hover {
     background-color: #656667;

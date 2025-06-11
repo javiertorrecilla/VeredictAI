@@ -64,6 +64,11 @@
     position: relative;
     font-size: 1rem;
   }
+
+  .navbar-menu li a:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
   
   .navbar-menu li a.active::after {
     content: "";
