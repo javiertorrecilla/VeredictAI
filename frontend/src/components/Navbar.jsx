@@ -1,8 +1,11 @@
 import './Navbar.css';
 import logo from '../assets/logo.png';
 import { NavLink, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { FiMenu, FiX } from 'react-icons/fi';
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -10,7 +13,10 @@ export default function Navbar() {
           <img src={logo} alt="Logo" className="navbar-logo" />
           <h2 className="navbar-title">VeredictAI</h2>
         </Link>
-        <ul className="navbar-menu">
+        <button className="navbar-toggle" onClick={() => setOpen(!open)}>
+          {open ? <FiX /> : <FiMenu />}
+        </button>
+        <ul className={`navbar-menu ${open ? 'open' : ''}`}>
           <li>
             <NavLink
               to="/atestados"
