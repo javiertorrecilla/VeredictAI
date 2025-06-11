@@ -101,18 +101,18 @@ export default function Analizador() {
 
       <div className="analizador-formulario">
         <label className="btn archivo-btn">
-          <FiUpload style={{ marginRight: '6px' }} />
+          <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
           Seleccionar archivo RDF
           <input type="file" accept=".rdf" onChange={handleFileChange} hidden />
         </label>
 
         <button className="btn analizar-btn" onClick={analizar} disabled={!file}>
-          <FiSearch style={{ marginRight: '6px' }} />
+          <FiSearch aria-hidden="true" style={{ marginRight: '6px' }} />
           Analizar RDF
         </button>
 
         <button className="btn reiniciar-btn" onClick={() => window.location.reload()}>
-          <FiRotateCw style={{ marginRight: '6px' }} />
+          <FiRotateCw aria-hidden="true" style={{ marginRight: '6px' }} />
           Analizar otro RDF
         </button>
       </div>
