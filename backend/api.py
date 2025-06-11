@@ -175,8 +175,11 @@ async def inferencias(file: UploadFile = File(...)):
         tmp.write(contenido)
         tmp_path = tmp.name
 
-    clases_inferidas = reasoner(tmp_path)
-    articulos = construir_articulos_inferidos(clases_inferidas)
-    
+    try:
+        clases_inferidas = reasoner(tmp_path)
+        articulos = construir_articulos_inferidos(clases_inferidas)
+    finally:
+        os.remove(tmp_path)
+
     return {"articulos": articulos}
 
