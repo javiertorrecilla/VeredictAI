@@ -1,12 +1,13 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web desarrollada con React y Vite. Proporciona la interfaz de usuario para subir atestados, visualizar grafos RDF e inferir artículos legales.
 
-Currently, two official plugins are available:
+## Contenido
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `index.html` – documento HTML principal servido por Vite.
+- `src/` – código fuente de la aplicación React.
+- `public/` – recursos estáticos copiados tal cual al directorio de salida.
+- `package.json` y `package-lock.json` – dependencias y scripts de desarrollo.
+- `vite.config.js` y `vercel.json` – configuración de Vite y despliegue.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Consulta los README de los subdirectorios para más detalles.
