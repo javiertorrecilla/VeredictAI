@@ -108,13 +108,13 @@ export default function Atestados() {
               <p><strong>{file ? file.name : 'No hay archivo seleccionado'}</strong></p>
               <p style={{ fontSize: '0.8rem', color: '#888' }}>Recomendado: PDF para previsualización directa</p>
               <label className="btn archivo-btn">
-                <FiUpload style={{ marginRight: '6px' }} />
+                <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
                 Seleccionar archivo
                 <input type="file" accept=".pdf,.docx" onChange={handleChange} hidden />
               </label>
               {file && (
                 <button className="eliminar-btn" onClick={eliminarArchivo}>
-                  <FiTrash2 style={{ marginRight: '4px' }} />
+                  <FiTrash2 aria-hidden="true" style={{ marginRight: '4px' }} />
                   Eliminar
                 </button>
               )}
@@ -122,7 +122,7 @@ export default function Atestados() {
           </div>
 
           <button className="btn procesar-btn" onClick={procesar} disabled={!file}>
-            <FiLoader style={{ marginRight: '6px' }} />
+            <FiLoader aria-hidden="true" style={{ marginRight: '6px' }} />
             Procesar
           </button>
         </div>
@@ -150,7 +150,7 @@ export default function Atestados() {
           )}
 
           <button className="btn descargar-btn" onClick={descargarRDF}>
-            <FiDownload style={{ marginRight: '6px' }} />
+            <FiDownload aria-hidden="true" style={{ marginRight: '6px' }} />
             Descargar grafo
           </button>
           {error && <p className="error">{error}</p>}
