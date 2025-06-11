@@ -10,8 +10,9 @@ import './App.css';
 function App() {
   return (
     <div className="app-wrapper">
+      <a href="#main" className="skip-link">Saltar al contenido</a>
       <Navbar />
-      <main className="main-hero">
+      <main id="main" className="main-hero">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/atestados" element={<Atestados />} />
