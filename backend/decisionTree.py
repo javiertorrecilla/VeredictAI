@@ -319,11 +319,12 @@ def caracteristicasAcusado(atestado_llm: AtestadoLLM, atestado: entities.Atestad
         
         antecedentes = atestado_llm.preguntar(questions.ANTECEDENTES.format(acusado=acusado.id))
         if antecedentes.lower() == 'sí':
+            acusado.caracteristicas_acusado.append("Antecedentes penales")
             condenasPrevias = atestado_llm.preguntar(questions.CONDENAS_PREVIAS.format(acusado=acusado.id))
             if condenasPrevias.lower() == 'sí':
                 acusado.caracteristicas_acusado.append("Más de 3 condenas previas")
-            cantidadDelitos = int(atestado_llm.preguntar(questions.CANTIDAD_ANTECEDENTES.format(acusado=acusado.id)))
-            acusado.antecedentes = cantidadDelitos
+                cantidadDelitos = int(atestado_llm.preguntar(questions.CANTIDAD_ANTECEDENTES.format(acusado=acusado.id)))
+                acusado.antecedentes = cantidadDelitos
 
         compliceMenor = atestado_llm.preguntar(questions.COMPLICE_MENOR.format(acusado=acusado.id))
         if compliceMenor.lower() == 'sí':

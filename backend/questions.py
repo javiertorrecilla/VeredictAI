@@ -66,7 +66,7 @@ NEUTRALIZACION_ALARMAS = (
 )
 
 CONDENAS_PREVIAS = (
-    "¿{acusado} tiene más de 3 condenas previas? "
+    "¿{acusado} tiene más de 3 condenas o detenciones previas? "
     "Responde con sí o no."
 )
 
