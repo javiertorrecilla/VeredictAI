@@ -60,6 +60,12 @@ export default function Atestados() {
   };
 
   const procesar = async () => {
+
+    if (!file) {
+      alert("Por favor, selecciona un archivo para procesar.");
+      return;
+    }
+
     setPopup(true);
     setLoading(true);
     const formData = new FormData();
@@ -125,10 +131,22 @@ export default function Atestados() {
               <p tabIndex="0"><strong>{file ? file.name : 'No hay archivo seleccionado'}</strong></p>
               <p style={{ fontSize: '0.8rem', color: '#888' }} tabIndex="0">Recomendado: PDF para previsualización directa</p>
 
-              <label className="btn archivo-btn" aria-label="Seleccionar archivo para procesar">
-                <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
-                Seleccionar archivo
-                <input type="file" accept=".pdf,.docx" onChange={handleChange} hidden />
+              <input
+                type="file"
+                accept=".pdf,.docx"
+                id="fileInput"
+                onChange={handleChange}
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="fileInput">
+                <button
+                  type="button"
+                  className="btn archivo-btn"
+                  aria-label="Seleccionar archivo para procesar"
+                >
+                  <FiUpload style={{ marginRight: '6px' }} />
+                  Seleccionar archivo
+                </button>
               </label>
 
               {file && (
@@ -143,7 +161,6 @@ export default function Atestados() {
           <button
             className="btn procesar-btn"
             onClick={procesar}
-            disabled={!file}
             aria-label="Procesar el documento cargado"
           >
             <FiLoader aria-hidden="true" style={{ marginRight: '6px' }} />

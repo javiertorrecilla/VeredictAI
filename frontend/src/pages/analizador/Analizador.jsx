@@ -93,7 +93,11 @@ export default function Analizador() {
   };
 
   const analizar = async () => {
-    if (!file) return;
+    if (!file){
+      alert("Por favor, selecciona un archivo RDF para analizar.");
+      return;
+    }
+    
     setPopupTexto("Infiriendo artículo...");
 
     const formData = new FormData();
@@ -123,16 +127,27 @@ export default function Analizador() {
       </div>
 
       <div className="analizador-formulario">
-        <label className="btn archivo-btn" aria-label="Seleccionar archivo RDF para analizar">
-          <FiUpload aria-hidden="true" style={{ marginRight: '6px' }} />
-          Seleccionar archivo RDF
-          <input type="file" accept=".rdf" onChange={handleFileChange} hidden />
+        <input
+          type="file"
+          accept=".rdf"
+          id="rdfInput"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="rdfInput">
+          <button
+            type="button"
+            className="btn archivo-btn"
+            aria-label="Seleccionar archivo RDF para analizar"
+          >
+            <FiUpload style={{ marginRight: '6px' }} />
+            Seleccionar archivo RDF
+          </button>
         </label>
 
         <button
           className="btn analizar-btn"
           onClick={analizar}
-          disabled={!file}
           aria-label="Analizar grafo RDF"
         >
           <FiSearch aria-hidden="true" style={{ marginRight: '6px' }} />
