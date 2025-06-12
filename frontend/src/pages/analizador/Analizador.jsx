@@ -14,6 +14,7 @@ export default function Analizador() {
   const imageRef = useRef(null);
   const visualRef = useRef(null);
   const overlayRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (!popupTexto) return;
@@ -34,6 +35,12 @@ export default function Analizador() {
     overlay?.addEventListener('keydown', handleKey);
     return () => overlay?.removeEventListener('keydown', handleKey);
   }, [popupTexto]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      fileInputRef.current?.click();
+    }
+  };
 
   const actualizarOverflow = (nuevoZoom) => {
     const zoomLimitado = Math.max(1, Math.min(1.3, nuevoZoom));
@@ -139,6 +146,7 @@ export default function Analizador() {
           className="btn archivo-btn"
           aria-label="Seleccionar archivo RDF para analizar"
           tabIndex="0"
+          onKeyDown={handleKeyDown}
           style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
         >
           <FiUpload style={{ marginRight: '6px' }} />

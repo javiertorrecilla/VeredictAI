@@ -13,6 +13,7 @@ export default function Atestados() {
   const [popup, setPopup] = useState(false);
   const [error, setError] = useState(null);
   const overlayRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (!popup) return;
@@ -33,6 +34,12 @@ export default function Atestados() {
     overlay?.addEventListener('keydown', handleKey);
     return () => overlay?.removeEventListener('keydown', handleKey);
   }, [popup]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      fileInputRef.current?.click();
+    }
+  };
 
   const handleChange = (e) => {
     const selected = e.target.files[0];
@@ -143,6 +150,7 @@ export default function Atestados() {
                 className="btn archivo-btn"
                 aria-label="Seleccionar archivo para procesar"
                 tabIndex="0"
+                onKeyDown={handleKeyDown}
                 style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
               >
                 <FiUpload style={{ marginRight: '6px' }} />
