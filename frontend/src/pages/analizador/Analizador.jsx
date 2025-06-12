@@ -97,7 +97,7 @@ export default function Analizador() {
       alert("Por favor, selecciona un archivo RDF para analizar.");
       return;
     }
-    
+
     setPopupTexto("Infiriendo artículo...");
 
     const formData = new FormData();
@@ -134,15 +134,14 @@ export default function Analizador() {
           onChange={handleFileChange}
           style={{ display: 'none' }}
         />
-        <label htmlFor="rdfInput">
-          <button
-            type="button"
-            className="btn archivo-btn"
-            aria-label="Seleccionar archivo RDF para analizar"
-          >
-            <FiUpload style={{ marginRight: '6px' }} />
-            Seleccionar archivo RDF
-          </button>
+        <label
+          htmlFor="rdfInput"
+          className="btn archivo-btn"
+          aria-label="Seleccionar archivo RDF para analizar"
+          style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
+        >
+          <FiUpload style={{ marginRight: '6px' }} />
+          Seleccionar archivo RDF
         </label>
 
         <button
