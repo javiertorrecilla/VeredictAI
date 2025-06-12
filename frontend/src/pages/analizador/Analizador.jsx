@@ -138,6 +138,7 @@ export default function Analizador() {
           htmlFor="rdfInput"
           className="btn archivo-btn"
           aria-label="Seleccionar archivo RDF para analizar"
+          tabIndex="0"
           style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
         >
           <FiUpload style={{ marginRight: '6px' }} />

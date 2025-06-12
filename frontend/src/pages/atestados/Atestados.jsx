@@ -138,15 +138,15 @@ export default function Atestados() {
                 onChange={handleChange}
                 style={{ display: 'none' }}
               />
-              <label htmlFor="fileInput">
-                <button
-                  type="button"
-                  className="btn archivo-btn"
-                  aria-label="Seleccionar archivo para procesar"
-                >
-                  <FiUpload style={{ marginRight: '6px' }} />
-                  Seleccionar archivo
-                </button>
+              <label
+                htmlFor="fileInput"
+                className="btn archivo-btn"
+                aria-label="Seleccionar archivo para procesar"
+                tabIndex="0"
+                style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <FiUpload style={{ marginRight: '6px' }} />
+                Seleccionar archivo
               </label>
 
               {file && (
