@@ -91,7 +91,7 @@ NOMBRE_ORGANIZACION = (
 )
 
 ANTECEDENTES = (
-    "¿{acusado} tiene antecedentes penales por robo? "
+    "¿{acusado} tiene antecedentes o detenciones previas? "
     "Responde con sí o no."
 )
 
