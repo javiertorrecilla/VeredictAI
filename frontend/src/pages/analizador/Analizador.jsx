@@ -130,7 +130,6 @@ export default function Analizador() {
       <div className="pasos">
         <div className="paso" tabIndex="0"><span>1</span> Selecciona un archivo RDF válido</div>
         <div className="paso" tabIndex="0"><span>2</span> Muestra el grafo asociado al archivo RDF</div>
-        <div className="paso" tabIndex="0"><span>3</span> Analiza e infiere un artículo en base al grafo RDF</div>
       </div>
 
       <div className="analizador-formulario">
@@ -152,15 +151,6 @@ export default function Analizador() {
           <FiUpload style={{ marginRight: '6px' }} />
           Seleccionar archivo RDF
         </label>
-
-        <button
-          className="btn analizar-btn"
-          onClick={analizar}
-          aria-label="Analizar grafo RDF"
-        >
-          <FiSearch aria-hidden="true" style={{ marginRight: '6px' }} />
-          Analizar RDF
-        </button>
 
         <button
           className="btn reiniciar-btn"
@@ -194,20 +184,6 @@ export default function Analizador() {
           <button onClick={() => actualizarOverflow(zoom + 0.1)} aria-label="Aumentar zoom">+</button>
         </div>
       )}
-
-      <div className="resultado" aria-live='polite'>
-        <h3 tabIndex="0">Artículos Inferidos:</h3>
-        {articulos.length > 0 ? (
-          <ul>
-            {articulos.map((texto, i) => (
-              <li key={i} tabIndex="0">{texto}</li>
-            ))}
-          </ul>
-        ) : (
-          <p tabIndex="0">No hay artículos inferidos.</p>
-        )}
-        {error && <p className="error" tabIndex="0">{error}</p>}
-      </div>
 
       {popupTexto && (
         <div
