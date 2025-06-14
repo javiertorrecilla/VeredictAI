@@ -294,8 +294,10 @@ def crear_rdf(atestado: Atestado):
 
     return f"{nombre_archivo}.rdf"
 
+from rdflib import Graph, URIRef, RDF, BNode
+
 def filtrar_grafo(rdf_text: str, formato="xml", namespace_base="http://www.semanticweb.org/fjnavarrete/ontologies/2022/0/delito_contra_patrimonio#") -> Graph:
-    """Elimina nodos externos al informe manteniendo solo información relevante."""
+    """Elimina nodos externos al informe y los blank nodes, manteniendo solo información relevante."""
     g_original = Graph()
     g_original.parse(data=rdf_text, format=formato)
 
@@ -305,16 +307,20 @@ def filtrar_grafo(rdf_text: str, formato="xml", namespace_base="http://www.seman
     nodos_iniciales = set(g_original.subjects(RDF.type, URIRef(namespace_base + "Report")))
 
     def recorrer_nodo(nodo):
-        if nodo in visitados:
+        if isinstance(nodo, BNode) or nodo in visitados:
             return
         visitados.add(nodo)
 
         for s, p, o in g_original.triples((nodo, None, None)):
+            if isinstance(s, BNode) or isinstance(o, BNode):
+                continue
             g_filtrado.add((s, p, o))
             if isinstance(o, URIRef):
                 recorrer_nodo(o)
 
         for s, p, o in g_original.triples((None, None, nodo)):
+            if isinstance(s, BNode) or isinstance(o, BNode):
+                continue
             g_filtrado.add((s, p, o))
             recorrer_nodo(s)
 
