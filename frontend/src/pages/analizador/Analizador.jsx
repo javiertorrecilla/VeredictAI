@@ -122,9 +122,9 @@ export default function Analizador() {
 
   return (
     <div className="analizador-wrapper">
-      <h1 tabIndex="0">Análisis e Inferencia Jurídica</h1>
+      <h1 tabIndex="0">Visualización de grafo RDF</h1>
       <p className="subtitulo" tabIndex="0">
-        Sube un archivo RDF para visualizar su grafo y obtener artículos inferidos automáticamente.
+        Sube un archivo RDF para visualizar su grafo asociado.
       </p>
 
       <div className="pasos">
