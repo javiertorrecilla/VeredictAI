@@ -16,7 +16,7 @@ export default function Home() {
               Procesamiento de atestado con IA
             </Link>
             <Link to="/analizador" className="home-btn">
-              Visualización de grafo e inferencia de artículo
+              Visualización de grafo RDF
             </Link>
           </div>
         </div>

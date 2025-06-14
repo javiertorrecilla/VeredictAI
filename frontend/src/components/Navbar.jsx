@@ -30,7 +30,7 @@ export default function Navbar() {
               to="/analizador"
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              Visualización e inferencia
+              Visualización de grafo RDF
             </NavLink>
           </li>
         </ul>
