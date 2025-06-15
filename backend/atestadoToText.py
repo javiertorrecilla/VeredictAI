@@ -62,4 +62,4 @@ def generar_descripcion(atestado: Atestado) -> str:
     if atestado.factores_mitigantes:
         descripcion.append(f"Factores atenuantes: {', '.join(atestado.factores_mitigantes)}.")
 
-    return " ".join(descripcion)
+    return "\n".join(descripcion)

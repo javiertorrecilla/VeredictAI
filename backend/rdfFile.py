@@ -294,8 +294,6 @@ def crear_rdf(atestado: Atestado):
 
     return f"{nombre_archivo}.rdf"
 
-from rdflib import Graph, URIRef, RDF, BNode
-
 def filtrar_grafo(rdf_text: str, formato="xml", namespace_base="http://www.semanticweb.org/fjnavarrete/ontologies/2022/0/delito_contra_patrimonio#") -> Graph:
     """Elimina nodos externos al informe y los blank nodes, manteniendo solo información relevante."""
     g_original = Graph()
