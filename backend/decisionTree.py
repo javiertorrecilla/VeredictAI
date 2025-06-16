@@ -99,7 +99,7 @@ def delitoPropiedad(atestado_llm: AtestadoLLM):
     print("Obteniendo los bienes robados...")
     nombres_bienes = atestado_llm.preguntar(questions.NOMBRES_BIENES)
     nombres_bienes = [bien.strip() for bien in nombres_bienes.split(",") if bien.strip()]
-    nombres_bienes = entities.filtrar_bienes(nombres_bienes)
+    ##nombres_bienes = entities.filtrar_bienes(nombres_bienes)
     bienesRobados = entities.initBienes(nombres_bienes)
 
     victimas_res =[]
