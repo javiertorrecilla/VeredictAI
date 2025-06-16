@@ -55,7 +55,18 @@ def initAtestado(atestado_id: str, bienes: List[Bien], victimas: List[Victima], 
         autores=autores
     )
 
+import re
+
 def filtrar_bienes(lista):
-    """Elimina bienes que son exclusivamente dinero (euros, billetes o monedas)."""
-    patron = re.compile(r'^(billete\w*|moneda\w*|[0-9]+ ?euro\w*)$', re.IGNORECASE)
-    return [item for item in lista if not patron.fullmatch(item.strip())]
+    """Elimina partes que representan exclusivamente dinero de descripciones de bienes."""
+    # Patrón para encontrar menciones monetarias como '70 euros', 'monedas', 'billetes'
+    patron_dinero = re.compile(r'(con\s*)?(?:[0-9]+ ?euros?|billetes?\w*|monedas?\w*)', re.IGNORECASE)
+    
+    resultado = []
+    for item in lista:
+        # Elimina las partes que coinciden con el patrón de dinero
+        bien_filtrado = patron_dinero.sub('', item).strip(",;:.- ").strip()
+        # Solo se guarda si queda algo significativo
+        if bien_filtrado:
+            resultado.append(bien_filtrado)
+    return resultado
